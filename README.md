@@ -23,7 +23,7 @@ Solutions to the common problem in software development a Design patterns
 * **Mediator**: Reduces coupling between objects by providing a single object to manage their interactions and reducing dependencies.
 * **Memento**: Allows you to create a snapshot of the state of an object, for undo/redo functionality or restoring an object to a previous state.
 * **Observer**: Define a 1: M relationship btw objects so that when one obj changes state, all of its dependents are notified and updated automatically.
-* **State**: Allow object for changing its behavior without changing its class. Cleaner without many if/else statement. (Single Rsp Pr and Ope/Clos Pr)
+* **State**: Allow object for changing its behavior without changing its class. Cleaner without many if/else statement. (Single Responsibility Principle and Open/Closed Principle from SOLID principles)
 * **Strategy**: Family of algorithms, encapsulates them, and makes them interchangeable. Clients can choose the desired algorithm at runtime.
 * **Template**: An algorithm as a skeleton of operations and leave the details to be implemented by the child classes. Sequence preserved by parent.
 * **Visitor**: Separates an algorithm from an object's structure, allowing new operations to be added without modifying the objects.

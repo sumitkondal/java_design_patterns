@@ -1,4 +1,4 @@
-# java_design_patterns
+# Java Design Patterns
 Solutions to the common problem in software development a Design patterns
 
 ### Creational (Focus on object creation mechanisms, providing flexible ways to create instances of classes.) - SFAPB

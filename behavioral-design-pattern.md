@@ -487,5 +487,427 @@ public class JavaThreadsInterviewQuestions {
 	}
 }
 ```
+### Observer Pattern
+Observer is a behavioral design pattern. It specifies communication between objects: observable and observers. An observable is an object which notifies observers about the changes in its state.
+It can be implemented by
+- Implement By Own
+- Implementation with Observer
+- Implementation with PropertyChangeListener
 
+Deprecated from java 9 – Class java.util.**Observable**
+addObserver(Observer o)
+deleteObserver(Observer o)
+
+Interface **Observer**
+update(Observable o, Object arg)
+
+Now can use Reactive Streams or Flow API(Package java.util.concurrent) –
+Flow.Processor : A component that acts as both a Subscriber and Publisher.
+Flow.Publisher : A producer of items received by Subscribers.
+Flow.Subscriber : A receiver of messages.
+Flow.Subscription: Message control linking a Flow.Publisher and Flow.Subscriber.
+
+e.g.
+```java
+class Observer1 implements Observer
+{
+	@Override
+	public void update(Observable obj, Object arg)
+	{
+		System.out.println("Observer1 - " + arg);
+	}
+}
+```
+```java
+class Observer2 implements Observer
+{
+	@Override
+	public void update(Observable obj, Object arg)
+	{
+		System.out.println("Observer2 - " + arg);
+	}
+}
+```
+```java
+class BeingObserved extends Observable
+{
+	void incre()
+	{
+		setChanged();
+		notifyObservers("New Item Found in your Stock, Please Buy....");
+	}
+}
+```
+```java
+class ObserverDemo {
+	public static void main(String args[])
+	{
+		BeingObserved beingObserved = new BeingObserved();
+		Observer1 observer1 = new Observer1();
+		Observer2 observer2 = new Observer2();
+		beingObserved.addObserver(observer1);
+		beingObserved.addObserver(observer2);
+		beingObserved.incre();
+	}
+}
+```
+
+Use Case : FlipKart / Amazon Design
+```java
+class UserSubscriber implements Observer {
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("Mail send to Subscriber, Total Stock available - " + arg);
+	}
+}
+```
+```java
+class IphoneSubscriber implements Observer {
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("Mail send to Iphone Subscriber, Total Stock available - " + arg);
+	}
+}
+```
+```java
+class NotifyMeFk {
+	public void notifyMe(NewStock stock, Observer user) {
+		stock.addObserver(user);
+	}
+}
+```
+```java
+class NewStock extends Observable {
+	public void addOutOfStockItems(int stockCnt) {
+		setChanged();
+		notifyObservers(stockCnt);
+	}
+}
+```
+```java
+public class FlipKartNotifyMe {
+	public static void main(String[] args) {
+		Observer user1 = new UserSubscriber();
+		Observer user3 = new IphoneSubscriber();
+		NewStock stock = new NewStock();
+		NotifyMeFk notme = new NotifyMeFk();
+		notme.notifyMe(stock, user1);
+		notme.notifyMe(stock, user3);
+		stock.addOutOfStockItems(5);
+	}
+}
+```
+
+### State Pattern
+The main idea of State pattern is to **allow the object for changing its behavior without changing its class**. Also, by implementing it, the code should remain cleaner without many if/else statements.
+State design pattern, we can encapsulate the logic in dedicated classes, apply the Single Responsibility Principle and Open/Closed Principle, have cleaner and more maintainable code.
+
+e.g.-
+```java
+interface PackageState {
+	void next(Package pkg);
+	void prev(Package pkg);
+	void checkStatus();
+}
+```
+```java
+class Package {
+	private PackageState state = new OrderedState();
+	public PackageState getState() {
+		return state;
+	}
+	public void setState(PackageState state) {
+		this.state = state;
+	}
+	public void previousState() {
+		state.prev(this);
+	}
+	public void nextState() {
+		state.next(this);
+	}
+	public void checkStatus() {
+		state.checkStatus();
+	}
+}
+```
+```java
+class OrderedState implements PackageState {
+	@Override
+	public void next(Package pkg) {
+		pkg.setState(new DeliveredState());
+	}
+	@Override
+	public void prev(Package pkg) {
+		System.out.println("The package is in its root state.");
+	}
+	@Override
+	public void checkStatus() {
+		System.out.println("Package ordered, not delivered to the office yet.");
+	}
+}
+```
+```java
+class DeliveredState implements PackageState {
+	@Override
+	public void next(Package pkg) {
+		pkg.setState(new ReceivedState());
+	}
+	@Override
+	public void prev(Package pkg) {
+		pkg.setState(new OrderedState());
+	}
+	@Override
+	public void checkStatus() {
+		System.out.println("Package delivered to post office, not received yet.");
+	}
+}
+```
+```java
+class ReceivedState implements PackageState {
+	@Override
+	public void next(Package pkg) {
+		System.out.println("This package is already received by a client.");
+	}
+	@Override
+	public void prev(Package pkg) {
+		pkg.setState(new DeliveredState());
+	}
+	@Override
+	public void checkStatus() {
+		System.out.println("Package Received to Client.");
+	}
+}
+```
+
+```java
+public class StateDemo {
+	public static void main(String[] args) {
+		Package pkg = new Package();
+		pkg.checkStatus();
+
+		pkg.nextState();
+		pkg.checkStatus();
+
+		pkg.nextState();
+		pkg.checkStatus();
+
+		pkg.nextState();
+		pkg.checkStatus();
+	}
+}
+```
+### Strategy Pattern
+A Strategy Pattern says that **"defines a family of functionality, encapsulate each one, and make them interchangeable"**.
+The Strategy Pattern is also known as **Policy**.
+e.g.-
+```java
+interface Strategy {
+	public float calculation(float a, float b);
+}
+```
+```java
+class Addition implements Strategy {
+	@Override
+	public float calculation(float a, float b) {
+		return a + b;
+	}
+}
+```
+```java
+class Subtraction implements Strategy {
+	@Override
+	public float calculation(float a, float b) {
+		return a - b;
+	}
+}
+```
+```java
+class Multiplication implements Strategy {
+	@Override
+	public float calculation(float a, float b) {
+		return a * b;
+	}
+}
+```
+```java
+class Context {
+	private Strategy strategy;
+	public Context(Strategy strategy) {
+		this.strategy = strategy;
+	}
+	public float executeStrategy(float num1, float num2) {
+		return strategy.calculation(num1, num2);
+	}
+}
+```
+```java
+public class StrategyPatternDemo {
+	public static void main(String[] args) {
+		float value1 = 4.67f;
+		float value2 = 34.56f;
+		Context context = new Context(new Addition());
+		System.out.println("Addition = " + context.executeStrategy(value1, value2));
+
+		context = new Context(new Subtraction());
+		System.out.println("Subtraction = " + context.executeStrategy(value1, value2));
+
+		context = new Context(new Multiplication());
+		System.out.println("Multiplication = " + context.executeStrategy(value1, value2));
+	}
+}
+```
+### Template Pattern
+Template method design pattern is to define **an algorithm as a skeleton of operations and leave the details to be implemented by the child classes**. The overall structure and sequence of the algorithm are preserved by the parent class.
+e.g.-
+```java
+abstract class Game {
+	abstract void initialize();
+	abstract void startPlay();
+	// template method
+	public final void play() {
+		initialize();
+		startPlay();
+	}
+}
+```
+```java
+class Cricket extends Game {
+	@Override
+	void initialize() {
+		System.out.println("Cricket Game Initialized! Start playing.");
+	}
+	@Override
+	void startPlay() {
+		System.out.println("Cricket Game Started. Enjoy the game!");
+	}
+}
+```
+```java
+class Football extends Game {
+	@Override
+	void initialize() {
+		System.out.println("Football Game Initialized! Start playing.");
+	}
+	@Override
+	void startPlay() {
+		System.out.println("Football Game Started. Enjoy the game!");
+	}
+}
+```
+```java
+public class TemplatePatternDemo {
+	public static void main(String[] args) {
+		Game game = new Cricket();
+		game.play();
+		game = new Football();
+		game.play();
+	}
+}
+```
+
+### Visitor Pattern
+The purpose of a Visitor pattern is to define a new operation without introducing the modifications to an existing object structure.
+A visitor design pattern is a behavioral design pattern used to decouple the logic/algorithm from the objects on which they operate. The logic is moved to separate classes called visitors. Each visitor is responsible for performing a specific operation.
+Consequently, we'll make good use of the Open/Closed principle as we won't modify the code, but we'll still be able to extend the functionality by providing a new Visitor implementation.
+
+e.g.-
+```java
+interface Shape {
+    void accept(ShapeVisitor visitor);
+}
+```
+```java
+class Circle implements Shape {
+    private final double radius;
+
+    public Circle(final double radius) {
+        this.radius = radius;
+    }
+    public double getRadius() {
+        return radius;
+    }
+    @Override
+    public void accept(final ShapeVisitor visitor) {
+        visitor.visit(this);
+    }
+}
+```
+```java
+class Square implements Shape {
+    private final double length;
+
+    public Square(final double length) {
+        this.length = length;
+    }
+    public double getLength() {
+        return length;
+    }
+    @Override
+    public void accept(final ShapeVisitor visitor) {
+        visitor.visit(this);
+    }
+}
+```
+```java
+interface ShapeVisitor {
+    void visit(Circle circle);
+    void visit(Square square);
+}
+```
+```java
+class AreaVisitor implements ShapeVisitor {
+    private double area;
+    @Override
+    public void visit(final Circle circle) {
+        area = Math.PI * Math.pow(circle.getRadius(), 2);
+    }
+    @Override
+    public void visit(final Square square) {
+        area = 2 * square.getLength();
+    }
+    public double get() {
+        return this.area;
+    }
+}
+```
+```java
+class PerimeterVisitor implements ShapeVisitor {
+    private double perimeter;
+    @Override
+    public void visit(final Circle circle) {
+        perimeter = 2 * Math.PI * circle.getRadius();
+    }
+    @Override
+    public void visit(final Square square) {
+        perimeter = 4 * square.getLength();
+    }
+    public double get() {
+        return this.perimeter;
+    }
+}
+```
+```java
+public class TestVisitor {
+	public static void main(String[] args) {
+		final List<Shape> shapes = new ArrayList<>();
+	
+	    shapes.add(new Circle(10));
+	    shapes.add(new Square(5));
+	
+	    final AreaVisitor areaVisitor = new AreaVisitor();
+	    final PerimeterVisitor perimeterVisitor = new PerimeterVisitor();
+	
+	    for (Shape shape: shapes) {
+	        shape.accept(areaVisitor);
+	        final double area = areaVisitor.get();	
+	        System.out.printf("Area of %s: %.2f%n", shape.getClass().getSimpleName(), area);
+	    }	
+	    for (Shape shape: shapes) {
+	        shape.accept(perimeterVisitor);
+	        final double perimeter = perimeterVisitor.get();	
+	        System.out.printf("Perimeter of %s: %.2f%n",shape.getClass().getSimpleName(),perimeter);
+	    }
+	}
+}
+```
 

@@ -110,7 +110,8 @@ Rules of thumb
 - Abstract Factory can be used as an alternative to Facade to hide platform-specific classes.
 - Builder focuses on constructing a complex object step by step. Abstract Factory emphasizes a family of product objects (either simple or complex). Builder returns the product as a final step, but as far as the Abstract Factory is concerned, the product gets returned immediately.
 - Often, designs start out using Factory Method (less complicated, more customizable, subclasses proliferate) and evolve toward Abstract Factory, Prototype, or Builder (more flexible, more complex) as the designer discovers where more flexibility is needed.
-<img width="522" alt="image" src="https://github.com/user-attachments/assets/ef759d57-e746-42f9-be9a-80274df8bf34">
+<img width="522" alt="image" src="https://github.com/user-attachments/assets/ef759d57-e746-42f9-be9a-80274df8bf34" >
+
 ```java
 public abstract class Computer {
     public abstract String getRAM();
@@ -122,7 +123,8 @@ public abstract class Computer {
         return "RAM= " + this.getRAM() + ", HDD= " + this.getHDD() + ", CPU= " + this.getCPU();
     }
 }
-
+```
+```java
 public class ServerFactory implements ComputerAbstractFactory {
     private String ram;
     private String hdd;
@@ -139,6 +141,8 @@ public class ServerFactory implements ComputerAbstractFactory {
         return new Server(ram, hdd, cpu);
     }
 }
+```
+```java
 public class PCFactory implements ComputerAbstractFactory {
     private String ram;
     private String hdd;
@@ -155,14 +159,20 @@ public class PCFactory implements ComputerAbstractFactory {
         return new PC(ram, hdd, cpu);
     }
 }
+```
+```java
 public interface ComputerAbstractFactory {
     public Computer createComputer();
 }
+```
+```java
 public class FactoryProducer {
     public static Computer getComputer(ComputerAbstractFactory factory) {
         return factory.createComputer();
     }
 }
+```
+```java
 public class Server extends Computer {
     private String ram;
     private String hdd;
@@ -176,7 +186,8 @@ public class Server extends Computer {
     
    // Getter Setter
 }
-
+```
+```java
 public class PC extends Computer {
     private String ram;
     private String hdd;
@@ -190,6 +201,8 @@ public class PC extends Computer {
     
     // Getter Setter
 }
+```
+```java
 public class TestDesignPatterns {
     public static void main(String[] args) {
         // Get PC instance using PCFactory

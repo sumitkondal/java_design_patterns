@@ -2,7 +2,7 @@
 Solutions to the common problem in software development a Design patterns
 
 ### Creational (Focus on object creation mechanisms, providing flexible ways to create instances of classes.) - SFAPB
-* **Singleton**: Ensures that there is only one instance of a class. Use case: Logging, Configuration, Database, and Cache.
+* [**Singleton**]: Ensures that there is only one instance of a class. Use case: Logging, Configuration, Database, and Cache.
 * **Factory**: Create object without exposing the creation logic to client. Defines interface for creating objects, leave implementation up to subclasses. 
 * **Abstract Factory**: Provides a way to create families of related objects without specifying their concrete classes.
 * **Prototype**: Creates a new object by copying an existing object. (Cloning of an existing object instead of creating new one to save resources)
@@ -27,3 +27,4 @@ Solutions to the common problem in software development a Design patterns
 * **Strategy**: Family of algorithms, encapsulates them, and makes them interchangeable. Clients can choose the desired algorithm at runtime.
 * **Template**: An algorithm as a skeleton of operations and leave the details to be implemented by the child classes. Sequence preserved by parent.
 * **Visitor**: Separates an algorithm from an object's structure, allowing new operations to be added without modifying the objects.
+(https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#singleton-design-pattern "Single")

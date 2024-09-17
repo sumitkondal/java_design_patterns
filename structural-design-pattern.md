@@ -192,6 +192,15 @@ class Square extends Shape {
 		return "Square drawn. " + color.fill();
 	}
 }
+class Circle extends Shape {
+	public Circle(Color color) {
+		super(color);
+	}
+	@Override
+	public String draw() {
+		return "Circle drawn. " + color.fill();
+	}
+}
 public class BridgePattern1 {
 	public static void main(String[] args) {
 		Shape square = new Square(new Red());

@@ -87,5 +87,7 @@ The bridge uses encapsulation, aggregation, and can use inheritance to separate 
 
 Without Bridge Pattern:					With Bridge – between Vehicle and Workshop:	
 
+<img width="215" alt="image" src="https://github.com/user-attachments/assets/febfbb9a-5b00-4aac-a435-f87cc789ab85">  <img width="287" alt="image" src="https://github.com/user-attachments/assets/61d33596-8dc0-480b-b54d-18a052d0d753">
+
                 
 

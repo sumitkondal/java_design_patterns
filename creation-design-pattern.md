@@ -110,6 +110,7 @@ Rules of thumb
 - Abstract Factory can be used as an alternative to Facade to hide platform-specific classes.
 - Builder focuses on constructing a complex object step by step. Abstract Factory emphasizes a family of product objects (either simple or complex). Builder returns the product as a final step, but as far as the Abstract Factory is concerned, the product gets returned immediately.
 - Often, designs start out using Factory Method (less complicated, more customizable, subclasses proliferate) and evolve toward Abstract Factory, Prototype, or Builder (more flexible, more complex) as the designer discovers where more flexibility is needed.
+<img width="522" alt="image" src="https://github.com/user-attachments/assets/ef759d57-e746-42f9-be9a-80274df8bf34">
 
 
 ### Prototype Pattern

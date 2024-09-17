@@ -90,4 +90,45 @@ Without Bridge Pattern:			             With Bridge – between Vehicle and Works
 <img width="215" alt="image" src="https://github.com/user-attachments/assets/febfbb9a-5b00-4aac-a435-f87cc789ab85">       <img width="287" alt="image" src="https://github.com/user-attachments/assets/61d33596-8dc0-480b-b54d-18a052d0d753">
 
                 
-
+Example on Pen color
+```java
+interface Color {
+	String fill();
+}
+class Blue implements Color {
+	@Override
+	public String fill() {
+		return "Color is Blue";
+	}
+}
+class Red implements Color {
+	@Override
+	public String fill() {
+		return "Color is Red";
+	}
+}
+abstract class Shape {
+	protected Color color;
+	public Shape(Color color) {
+		super();
+		this.color = color;
+	}
+	public abstract String draw();
+}
+class Square extends Shape {
+	public Square(Color color) {
+		super(color);
+	}
+	@Override
+	public String draw() {
+		return "Square drawn. " + color.fill();
+	}
+}
+public class BridgePattern1 {
+	public static void main(String[] args) {
+		Shape square = new Square(new Red());
+		System.out.println(square.draw());
+		System.out.println(new Square(new Blue()).draw());
+	}
+}
+```

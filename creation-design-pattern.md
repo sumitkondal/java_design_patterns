@@ -36,15 +36,15 @@ public static GFG getInstance(){
 
 ```java
 public class GFG {
-		private GFG() {
-		}
-		// Inner class to provide instance of class
-		private static class BillPughSingleton {
-			private static final GFG INSTANCE = new GFG();
-		}
-		public static GFG getInstance() {
-			return BillPughSingleton.INSTANCE;
-		}
+	private GFG() {
+	}
+	// Inner class to provide instance of class
+	private static class BillPughSingleton {
+		private static final GFG INSTANCE = new GFG();
+	}
+	public static GFG getInstance() {
+		return BillPughSingleton.INSTANCE;
+	}
 }
 ```
 **Reflection and Thread Safe**

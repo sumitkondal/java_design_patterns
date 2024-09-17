@@ -13,9 +13,9 @@ Solutions to the common problem in software development a Design patterns
 : Separates the abstraction from its implementation. Useful when you want to change implementations without affecting clients.
 * [**Composite**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#composite-design-pattern "Composite"): Compose objects into tree structures to represent whole-part hierarchies. - Composite (having children), Leaf (no children)
 * [**Decorator**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#decorator-pattern "Decorator"): Dynamically adds new functionality to object. Change object’s functionality during runtime. Extending functionality without subclassing.
-* **Facade**: Provides a simplified interface to a complex subsystem.
-* **Flyweight**: Minimizes memory usage by sharing data across multiple objects, when many instances have similar states. It reduces the no. of objects
-* **Proxy**: Used to add an extra security layer around the original object as well. It hides the original object. (Lazy loading, access control, or logging)
+* [**Facade**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#facade-pattern "Facade"): Provides a simplified interface to a complex subsystem.
+* [**Flyweight**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#flyweight-pattern "Flyweight"): Minimizes memory usage by sharing data across multiple objects, when many instances have similar states. It reduces the no. of objects
+* [**Proxy**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#proxy-pattern "Proxy"): Used to add an extra security layer around the original object as well. It hides the original object. (Lazy loading, access control, or logging)
 ### Behavioral (How objects interact and communicate with each other to achieve certain behaviors and responsibilities) - CCII-MMOS-STV
 * **Chain of Responsibility**: Allows you to pass a request along a chain of objects until an object is found that can handle the request.
 * **Command**: Encapsulate actions as objects, making it easy to queue, log, or undo them without knowing all the details of how they're executed. 

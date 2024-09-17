@@ -5,8 +5,8 @@ Solutions to the common problem in software development a Design patterns
 * [**Singleton**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#singleton-design-pattern "**Singletone**"): Ensures that there is only one instance of a class. Use case: Logging, Configuration, Database, and Cache.
 * [**Factory**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#factory-pattern "**Factory**"): Create object without exposing the creation logic to client. Defines interface for creating objects, leave implementation up to subclasses. 
 * [**Abstract Factory**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#abstract-factory-pattern "**Abstract Factory**"): Provides a way to create families of related objects without specifying their concrete classes.
-* **Prototype**: Creates a new object by copying an existing object. (Cloning of an existing object instead of creating new one to save resources)
-* **Builder**: Construct a complex object from simple objects using step-by-step approach. (Helps in creating classes with a large set of state attributes)
+* [**Prototype**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#prototype-pattern "**Prototype**"): Creates a new object by copying an existing object. (Cloning of an existing object instead of creating new one to save resources)
+* [**Builder**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#builder-pattern "**Builder**"): Construct a complex object from simple objects using step-by-step approach. (Helps in creating classes with a large set of state attributes)
 ### Structural (Focus on the composition of classes and objects to form larger structures) - ABCD-FFP
 * **Adapter**: Allows two incompatible interfaces, classes, and services to communicate and work together.
 * **Bridge**: Separates the abstraction from its implementation. Useful when you want to change implementations without affecting clients.

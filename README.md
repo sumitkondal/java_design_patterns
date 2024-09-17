@@ -8,7 +8,7 @@ Solutions to the common problem in software development a Design patterns
 * [**Prototype**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#prototype-pattern "Prototype"): Creates a new object by copying an existing object. (Cloning of an existing object instead of creating new one to save resources)
 * [**Builder**](https://github.com/sumitkondal/java_design_patterns/blob/main/creation-design-pattern.md#builder-pattern "Builder"): Construct a complex object from simple objects using step-by-step approach. (Helps in creating classes with a large set of state attributes)
 ### Structural (Focus on the composition of classes and objects to form larger structures) - ABCD-FFP
-* **Adapter**: Allows two incompatible interfaces, classes, and services to communicate and work together.
+* [**Adapter**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#adapter-design-pattern "Adapter"): Allows two incompatible interfaces, classes, and services to communicate and work together.
 * **Bridge**: Separates the abstraction from its implementation. Useful when you want to change implementations without affecting clients.
 * **Composite**: Compose objects into tree structures to represent whole-part hierarchies. - Composite (having children), Leaf (no children)
 * **Decorator**: Dynamically adds new functionality to object. Change object’s functionality during runtime. Extending functionality without subclassing.

@@ -110,3 +110,149 @@ Rules of thumb
 - Abstract Factory can be used as an alternative to Facade to hide platform-specific classes.
 - Builder focuses on constructing a complex object step by step. Abstract Factory emphasizes a family of product objects (either simple or complex). Builder returns the product as a final step, but as far as the Abstract Factory is concerned, the product gets returned immediately.
 - Often, designs start out using Factory Method (less complicated, more customizable, subclasses proliferate) and evolve toward Abstract Factory, Prototype, or Builder (more flexible, more complex) as the designer discovers where more flexibility is needed.
+
+
+### Prototype Pattern
+Prototype pattern says that cloning of an existing object instead of creating new one and can also be customized as per the requirement. This pattern should be followed, if the cost of creating a new object is expensive and resource intensive.
+Resource will save the CPU cycles but each will need memory.
+In Flyweight, object is immutable.
+In Prototype, object is mutable.
+Prototype Steps of Example: 
+1. When class load create a new instances Album/Movie class for cloning 
+2. Main Method -> Prototype Test Class -> get the clone() of -> (Album/Movie class -> Override method clone() -> Call super Clone() -> Object Class Clone())
+3. It will create clone copy of (Album/Movie class)
+
+```java
+public interface PrototypeCapable extends Cloneable {
+	public PrototypeCapable clone() throws CloneNotSupportedException;
+}
+
+public class Movie implements PrototypeCapable {
+	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public Movie clone() throws CloneNotSupportedException {
+		System.out.println("Cloning Movie object..");
+		return (Movie) super.clone();
+	}
+	
+}
+
+public class Album implements PrototypeCapable {
+	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public Album clone() throws CloneNotSupportedException {
+		System.out.println("Cloning Album object..");
+		return (Album) super.clone();
+	}
+}
+public class PrototypeFactory {
+	public static PrototypeCapable getInstance(final ModelType s) throws CloneNotSupportedException {
+		return (PrototypeCapable) s.getValue().clone();
+	}
+}
+public class PrototypeFactorySimple {
+	private static Map<String, PrototypeCapable> prototypes = new HashMap<String, PrototypeCapable>();
+	static {
+		prototypes.put("movie", new Movie());
+		prototypes.put("album", new Album());
+	}
+	public static PrototypeCapable getInstance(final String s) throws CloneNotSupportedException {
+		return ((PrototypeCapable) prototypes.get(s)).clone();
+	}
+}
+public enum ModelType {
+	MOVIE(new Movie()), ALBUM(new Album()), SHOW(new Show());
+	private PrototypeCapable value;
+	private ModelType(PrototypeCapable value) {
+		this.value = value;
+	}
+	public PrototypeCapable getValue() {
+		return value;
+	}
+}
+public class TestPrototypePattern {
+	public static void main(String[] args) {
+		try {
+			/* BEST WAY
+			Movie instance1 = (Movie) PrototypeFactory.getInstance(ModelType.MOVIE);
+			System.out.println(instance1.hashCode());
+			Album instance2 = (Album) PrototypeFactory.getInstance(ModelType.ALBUM);
+			System.out.println(instance2);
+			*/
+			//Alternative Simple Way
+			Movie instance1 = (Movie) PrototypeFactorySimple.getInstance("movie");
+			Movie instance2 = (Movie) PrototypeFactorySimple.getInstance("movie");
+			System.out.println(instance1.hashCode()); //Provides a Different Hashcode value
+			System.out.println(instance2.hashCode()); //Provides a Different Hashcode value
+			Album instance3 = (Album) PrototypeFactorySimple.getInstance("album");
+			System.out.println(instance3);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}	
+}
+}
+
+```
+### Builder Pattern
+Builder pattern says that "construct a complex object from simple objects using step-by-step approach". It is mostly used when object can't be created in single step like in the de-serialization of a complex object. 
+The builder pattern helps us in creating classes with a large set of state attributes. Please note that the created object does not have any setter method, so its state cannot be changed once it has been built.
+e.g. - JAVA: StringBuilder class -> .append () method 
+```java
+class Book {
+	private final String isbn;
+	private final String title;
+	private final String author;
+	private Book(Builder builder) {
+		this.isbn = builder.isbn;
+		this.title = builder.title;
+		this.author = builder.author;
+	}
+	public String getIsbn() {
+		return isbn;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public String getAuthor() {
+		return author;
+	}	
+	public static class Builder {
+		private final String isbn;
+		private final String title;
+		private String author;
+		public Builder(String isbn, String title) {
+			this.isbn = isbn;
+			this.title = title;
+		}
+		public Builder author(String author) {
+			this.author = author;
+			return this;
+		}
+		public Book build() {
+			return new Book(this);
+		}
+	}
+}
+public class BuilderTest {
+	public static void main(String[] args) {		
+		Book.Builder build = new Book.Builder("123", "Try Builder").author("ABC");	
+		Book buk = build.build();
+		System.out.println(buk + "|" + buk.hashCode()); //With different Hashcode
+		buk = build.author("XYZ").build();
+		System.out.println(buk + "|" + buk.hashCode());	//With different Hashcode
+	}
+}
+```
+

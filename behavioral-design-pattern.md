@@ -106,4 +106,124 @@ public class ATMDispenseChain {
 		}
 }
 ```
+### Command Pattern
+A Command Pattern says that "encapsulate a request under an object as a command and pass it to invoker object. Invoker object looks for the appropriate object which can handle this command and pass the command to the corresponding object and that object executes the command".
+
+It is also known as Action or Transaction.
+
+```java
+interface ICommand {
+	public void execute();
+}
+class Light {
+	String name;	
+	public Light(String name) {
+		this.name = name;
+	}
+	public void turnOn() {
+		System.out.println(name + " Light is on" );
+	}
+	public void turnOff() {
+		System.out.println( name + " Light is off");
+	}
+}
+class Fan {
+	void start() {
+		System.out.println("Fan Started..");
+
+	}
+	void stop() {
+		System.out.println("Fan stopped..");
+
+	}
+}
+```
+```java
+class TurnOffLightCommand implements ICommand {
+	Light light;
+	public TurnOffLightCommand(Light light) {
+		this.light = light;
+	}
+	@Override
+	public void execute() {
+		System.out.println("Turning off light.");
+		light.turnOff();
+	}
+}
+class TurnOnLightCommand implements ICommand {
+
+	Light light;
+	public TurnOnLightCommand(Light light) {
+		this.light = light;
+	}
+	@Override
+	public void execute() {
+		System.out.println("Turning on light.");
+		light.turnOn();
+	}
+}
+```
+```java
+class StartFanCommand implements ICommand {
+	Fan fan;
+	public StartFanCommand(Fan fan) {
+		this.fan = fan;
+	}
+	@Override
+	public void execute() {
+		System.out.println("starting Fan.");
+		fan.start();
+	}
+}
+class StopFanCommand implements ICommand {
+	Fan fan;
+	public StopFanCommand(Fan fan) {
+		this.fan = fan;
+	}
+	@Override
+	public void execute() {
+		System.out.println("stopping Fan.");
+		fan.stop();
+	}
+}
+```
+```java
+class HomeAutomationRemote {
+	ICommand command;
+	public void setCommand(ICommand command) {
+		this.command = command;
+	}
+	// Will call the command interface method so that particular command can be
+	// invoked.
+	public void buttonPressed() {
+		command.execute();
+	}
+}
+```
+```java
+public class CommandPatternDemo // client
+{
+	public static void main(String[] args) {
+		Light livingRoomLight = new Light("Living Room"); // receiver 1
+		Fan livingRoomFan = new Fan(); // receiver 2
+		Light bedRoomLight = new Light("Bed Room"); // receiver 3
+		Fan bedRoomFan = new Fan(); // receiver 4
+
+		HomeAutomationRemote remote = new HomeAutomationRemote(); // Invoker
+
+		remote.setCommand(new TurnOnLightCommand(livingRoomLight));
+		remote.buttonPressed();
+		remote.setCommand(new TurnOnLightCommand(bedRoomLight));
+		remote.buttonPressed();
+		remote.setCommand(new StartFanCommand(livingRoomFan));
+		remote.buttonPressed();
+		remote.setCommand(new StopFanCommand(livingRoomFan));
+		remote.buttonPressed();
+		remote.setCommand(new StartFanCommand(bedRoomFan));
+		remote.buttonPressed();
+		remote.setCommand(new StopFanCommand(bedRoomFan));
+		remote.buttonPressed();
+	}
+}
+```
 

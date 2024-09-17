@@ -324,6 +324,7 @@ public class IteratorPatternDemo {
 **1** - We should always try to design the system in such a way that components are loosely coupled and reusable. This approach makes our code easier to maintain and test.
 In real life, however, we often need to deal with a complex set of dependent objects. This is when the Mediator Pattern may come in handy.
 The intent of the Mediator Pattern is to reduce the complexity and dependencies between tightly coupled objects communicating directly with one another.
+
 **2** - Mediator helps in establishing loosely coupled communication between objects and helps in reducing the direct references to each other. This helps in minimizing the complexity of dependency management and communications among participating objects.
 **Main Points:**
 - Chain of Responsibility passes a request sequentially along a dynamic chain of potential receivers until one of them handles it.

@@ -11,7 +11,7 @@ Solutions to the common problem in software development a Design patterns
 * [**Adapter**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#adapter-design-pattern "Adapter"): Allows two incompatible interfaces, classes, and services to communicate and work together.
 * [**Bridge**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#bridge-pattern "Bridge")
 : Separates the abstraction from its implementation. Useful when you want to change implementations without affecting clients.
-* **Composite**: Compose objects into tree structures to represent whole-part hierarchies. - Composite (having children), Leaf (no children)
+* [**Composite**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#composite-design-pattern "Composite"): Compose objects into tree structures to represent whole-part hierarchies. - Composite (having children), Leaf (no children)
 * **Decorator**: Dynamically adds new functionality to object. Change object’s functionality during runtime. Extending functionality without subclassing.
 * **Facade**: Provides a simplified interface to a complex subsystem.
 * **Flyweight**: Minimizes memory usage by sharing data across multiple objects, when many instances have similar states. It reduces the no. of objects

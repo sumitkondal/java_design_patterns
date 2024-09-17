@@ -329,3 +329,56 @@ public class TestComposite {
 	}
 }
 ```
+
+### Decorator Pattern
+The decorator design pattern is used to change an object’s functionality during runtime. Other instances of the same class will be unaffected, therefore each object will have its behavior changed.
+
+```java
+interface Icecream {
+	public String makeIcecream();
+}
+class SimpleIcecream implements Icecream {
+	@Override
+	public String makeIcecream() {
+		return "Base Icecream";
+	}
+}
+class IcecreamDecorator implements Icecream {
+    protected Icecream specialIcecream;
+    public IcecreamDecorator(Icecream specialIcecream) {
+        this.specialIcecream = specialIcecream;
+    }
+    public String makeIcecream() {
+        return specialIcecream.makeIcecream();
+    }
+}
+class NuttyDecorator extends IcecreamDecorator {
+    public NuttyDecorator(Icecream specialIcecream) {
+        super(specialIcecream);
+    }
+    public String makeIcecream() {
+        return specialIcecream.makeIcecream() + addNuts();
+    }
+    private String addNuts() {
+        return " + crunchy nuts";
+    }
+}
+class HoneyDecorator extends IcecreamDecorator {
+    public HoneyDecorator(Icecream specialIcecream) {
+        super(specialIcecream);
+    }
+    public String makeIcecream() {
+        return specialIcecream.makeIcecream() + addHoney();
+    }
+    private String addHoney() {
+        return " + sweet honey";
+    }
+}
+public class TestDecorator {
+    public static void main(String args[]) {
+    	Icecream icecream = new NuttyDecorator(new HoneyDecorator(new SimpleIcecream()));
+        System.out.println(icecream.makeIcecream());
+    }
+}
+```
+

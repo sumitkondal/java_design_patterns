@@ -111,8 +111,98 @@ Rules of thumb
 - Builder focuses on constructing a complex object step by step. Abstract Factory emphasizes a family of product objects (either simple or complex). Builder returns the product as a final step, but as far as the Abstract Factory is concerned, the product gets returned immediately.
 - Often, designs start out using Factory Method (less complicated, more customizable, subclasses proliferate) and evolve toward Abstract Factory, Prototype, or Builder (more flexible, more complex) as the designer discovers where more flexibility is needed.
 <img width="522" alt="image" src="https://github.com/user-attachments/assets/ef759d57-e746-42f9-be9a-80274df8bf34">
+```java
+public abstract class Computer {
+    public abstract String getRAM();
+    public abstract String getHDD();
+    public abstract String getCPU();
+    
+    @Override
+    public String toString() {
+        return "RAM= " + this.getRAM() + ", HDD= " + this.getHDD() + ", CPU= " + this.getCPU();
+    }
+}
 
+public class ServerFactory implements ComputerAbstractFactory {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public ServerFactory(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public Computer createComputer() {
+        return new Server(ram, hdd, cpu);
+    }
+}
+public class PCFactory implements ComputerAbstractFactory {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public PCFactory(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public Computer createComputer() {
+        return new PC(ram, hdd, cpu);
+    }
+}
+public interface ComputerAbstractFactory {
+    public Computer createComputer();
+}
+public class FactoryProducer {
+    public static Computer getComputer(ComputerAbstractFactory factory) {
+        return factory.createComputer();
+    }
+}
+public class Server extends Computer {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public Server(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+   // Getter Setter
+}
 
+public class PC extends Computer {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public PC(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    // Getter Setter
+}
+public class TestDesignPatterns {
+    public static void main(String[] args) {
+        // Get PC instance using PCFactory
+        Computer pc = FactoryProducer.getComputer(new PCFactory("16 GB", "1 TB", "2.9 GHz"));
+        System.out.println("PC Config:: " + pc);
+        
+        // Get Server instance using ServerFactory
+        Computer server = FactoryProducer.getComputer(new ServerFactory("32 GB", "4 TB", "3.4 GHz"));
+        System.out.println("Server Config:: " + server);
+    }
+}
+
+```
 ### Prototype Pattern
 Prototype pattern says that cloning of an existing object instead of creating new one and can also be customized as per the requirement. This pattern should be followed, if the cost of creating a new object is expensive and resource intensive.
 Resource will save the CPU cycles but each will need memory.

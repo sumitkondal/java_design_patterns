@@ -224,3 +224,268 @@ public class CommandPatternDemo // client
 }
 ```
 
+### Iterator Pattern
+The Iterator Pattern is a basic and widely used design pattern. Each language has a large number of data collections as well as structures. Iterator is known to be a behavioral design pattern that allows you to traverse components of a set without revealing the representation underneath (for example: stack, lists, tree, etc.).
+
+The participants of iterator pattern are as follows:
+- Iterator: An interface to access or traverse the elements collection. Provide methods which concrete iterators must implement.
+- Concrete Iterator: implements the Iterator interface methods. It can also keep track of the current position in the traversal of the aggregate collection.
+- Aggregate: It is typically a collection interface which defines a method that can create an Iterator object.
+- Concrete Aggregate: It implements the Aggregate interface and its specific method returns an instance of Concrete Iterator.
+
+```java
+interface Iterator<E> {
+	void reset(); // reset to the first element
+	E next(); // To get the next element
+	E currentItem(); // To retrieve the current element
+	boolean hasNext(); // To check whether there is any next element or not.
+}
+```
+
+```java
+class Topic {
+	private String name;
+	public Topic(String name) {
+		this.name = name;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+
+class TopicIterator implements Iterator<Topic> {
+	private Topic[] topics;
+	private int position;
+	public TopicIterator(Topic[] topics) {
+		this.topics = topics;
+		position = 0;
+	}
+	@Override
+	public void reset() {
+		position = 0;
+	}
+	@Override
+	public Topic next() {
+		return topics[position++];
+	}
+	@Override
+	public Topic currentItem() {
+		return topics[position];
+	}
+	@Override
+	public boolean hasNext() {
+		if (position >= topics.length)
+			return false;
+		return true;
+	}
+}
+```
+```java
+interface List<E> {
+	Iterator<E> iterator();
+}
+```
+```java
+class TopicList implements List<Topic> {
+	private Topic[] topics;
+
+	public TopicList(Topic[] topics) {
+		this.topics = topics;
+	}
+
+	@Override
+	public Iterator<Topic> iterator() {
+		return new TopicIterator(topics);
+	}
+}
+```
+```java
+public class IteratorPatternDemo {
+	public static void main(String[] args) {
+		Topic[] topics = new Topic[5];
+		topics[0] = new Topic("topic1");
+		topics[1] = new Topic("topic2");
+		topics[2] = new Topic("topic3");
+		topics[3] = new Topic("topic4");
+		topics[4] = new Topic("topic5");
+		List<Topic> list = new TopicList(topics);
+		Iterator<Topic> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Topic currentTopic = iterator.next();
+			System.out.println(currentTopic.getName());
+		}
+	}
+}
+```
+### Mediator Pattern
+**1** - We should always try to design the system in such a way that components are loosely coupled and reusable. This approach makes our code easier to maintain and test.
+In real life, however, we often need to deal with a complex set of dependent objects. This is when the Mediator Pattern may come in handy.
+The intent of the Mediator Pattern is to reduce the complexity and dependencies between tightly coupled objects communicating directly with one another.
+**2** - Mediator helps in establishing loosely coupled communication between objects and helps in reducing the direct references to each other. This helps in minimizing the complexity of dependency management and communications among participating objects.
+**Main Points:**
+- Chain of Responsibility passes a request sequentially along a dynamic chain of potential receivers until one of them handles it.
+- Command establishes unidirectional connections between senders and receivers.
+- Mediator eliminates direct connections between senders and receivers, forcing them to communicate indirectly via a mediator object.
+- Observer lets receivers dynamically subscribe to and unsubscribe from receiving requests.
+
+- Facade and Mediator have similar jobs: they try to organize collaboration between lots of tightly coupled classes.
+
+	- Facade defines a simplified interface to a subsystem of objects, but it doesn’t introduce any new functionality. The subsystem itself is unaware of the facade. Objects within the subsystem can communicate directly.
+
+	- Mediator centralizes communication between components of the system. The components only know about the mediator object and don’t communicate directly.
+
+**Wrong Practice (Tight Coupled)**
+e.g. – 
+```java
+class Button {
+	private Fan fan;	
+	// constructor, getters and setters
+	public void press() {
+		if (fan.isOn()) {
+			fan.turnOff();
+		} else {
+			fan.turnOn();
+		}
+	}
+}
+```
+```java
+class Fan {
+	private Button button;
+	private PowerSupplier powerSupplier;
+	private boolean isOn = false;
+	// constructor, getters and setters
+	public boolean isOn() {
+		return isOn;
+	}
+	public void turnOn() {
+		powerSupplier.turnOn();
+		isOn = true;
+	}	
+	public void turnOff() {
+		isOn = false;
+		powerSupplier.turnOff();
+	}
+}
+```
+```java
+class PowerSupplier {
+	public void turnOn() {
+		System.out.println("Power Supply On");
+	}
+	public void turnOff() {
+		System.out.println("Power Supply Off");
+	}
+}
+public class JavaThreadsInterviewQuestions {
+	public static void main(String[] args) {
+		Button btn1 = new Button();
+		PowerSupplier pwrSupply = new PowerSupplier();
+		Fan fn = new Fan();
+		fn.setPowerSupplier(pwrSupply);
+		btn1.setFan(fn);
+
+		btn1.press();
+		btn1.press();
+	}
+}
+```
+**Correct : **
+
+```java
+class Button {
+	private Mediator mediator;
+	// constructor, getters and setters
+public void setMediator(Mediator mediator) {
+        		this.mediator = mediator;
+   	}
+	public void press() {
+		mediator.press();
+	}
+}
+```
+```java
+class Fan {
+	private Mediator mediator;
+	private boolean isOn = false;
+	// constructor, getters and setters
+public void setMediator(Mediator mediator) {
+       this.mediator = mediator;
+   	}
+	public boolean isOn() {
+		return isOn;
+	}
+	public void turnOn() {
+		mediator.start();
+		isOn = true;
+	}
+	public void turnOff() {
+		isOn = false;
+		mediator.stop();
+	}
+}
+```
+```java
+class PowerSupplier {
+	public void turnOn() {
+		System.out.println("Power Supply On");
+	}
+	public void turnOff() {
+		System.out.println("Power Supply Off");
+	}
+}
+```
+```java
+class Mediator {
+	private Button button;
+	private Fan fan;
+	private PowerSupplier powerSupplier;
+	// constructor, getters and setters
+public void setButton(Button button) {
+        this.button = button;
+        this.button.setMediator(this);
+}
+public void setFan(Fan fan) {
+        this.fan = fan;
+        this.fan.setMediator(this);
+}
+public void setPowerSupplier(PowerSupplier powerSupplier) {
+        this.powerSupplier = powerSupplier;
+}
+	public void press() {
+		if (fan.isOn()) {
+			fan.turnOff();
+		} else {
+			fan.turnOn();
+		}
+	}
+	public void start() {
+		powerSupplier.turnOn();
+	}
+	public void stop() {
+		powerSupplier.turnOff();
+	}
+}
+```
+```java
+public class JavaThreadsInterviewQuestions {
+	public static void main(String[] args) {
+		Button btn1 = new Button();
+		PowerSupplier pwrSupply = new PowerSupplier();
+		Fan fn = new Fan();
+		Mediator mdtr = new Mediator();
+		
+		mdtr.setButton(btn1);
+		mdtr.setFan(fn);
+		mdtr.setPowerSupplier(pwrSupply);
+		
+		btn1.press();
+		btn1.press();	
+	}
+}
+```
+
+

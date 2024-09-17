@@ -130,11 +130,9 @@ class Light {
 class Fan {
 	void start() {
 		System.out.println("Fan Started..");
-
 	}
 	void stop() {
 		System.out.println("Fan stopped..");
-
 	}
 }
 ```
@@ -151,7 +149,6 @@ class TurnOffLightCommand implements ICommand {
 	}
 }
 class TurnOnLightCommand implements ICommand {
-
 	Light light;
 	public TurnOnLightCommand(Light light) {
 		this.light = light;

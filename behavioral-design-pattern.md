@@ -393,7 +393,7 @@ public class JavaThreadsInterviewQuestions {
 	}
 }
 ```
-**Correct : **
+**Correct :**
 
 ```java
 class Button {

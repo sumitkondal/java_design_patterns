@@ -1,5 +1,5 @@
-## Singleton Design Pattern :  Singleton pattern is a design pattern in which only one instance of a class is present in the Java virtual machine.
- A singleton class (implementing singleton pattern) has to provide a global access point to get the instance of the class.
+### Singleton Design Pattern :  
+Singleton pattern is a design pattern in which only one instance of a class is present in the Java virtual machine. A singleton class (implementing singleton pattern) has to provide a global access point to get the instance of the class.
 1. **Eager initialization** (Thread Safe – In our testing we didn’t find any duplicate hashcode) e.g. 
 ```java
 public class GFG {

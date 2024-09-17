@@ -201,8 +201,11 @@ public class TestDesignPatterns {
         System.out.println("Server Config:: " + server);
     }
 }
-
 ```
+
+
+
+
 ### Prototype Pattern
 Prototype pattern says that cloning of an existing object instead of creating new one and can also be customized as per the requirement. This pattern should be followed, if the cost of creating a new object is expensive and resource intensive.
 Resource will save the CPU cycles but each will need memory.

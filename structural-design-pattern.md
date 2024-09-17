@@ -217,11 +217,14 @@ It treats each node in two ways:
 2) Leaf – leaf means it has no objects below it.
 
 <img width="132" alt="image" src="https://github.com/user-attachments/assets/099a3261-0fc4-478c-b7a0-185f2a0fa00b">
+
 ```java
 interface Employee{
 	public void showEmployeeDetails();
 }
+```
 
+```java
 class Employee_Leaf implements Employee{
 	private int dev_id;
 	private String dev_name;
@@ -254,6 +257,8 @@ class Employee_Leaf implements Employee{
 		this.dev_name = dev_name;
 	}
 }
+```
+```java
 class CompanyDirectory implements Employee{
 	private String deptName;
 	public CompanyDirectory(String deptName) {
@@ -274,6 +279,8 @@ class CompanyDirectory implements Employee{
 		employees.remove(e);
 	}
 }
+```
+```java
 public class TestComposite {
 	public static void main(String[] args) {
 		Employee dev1 = new Employee_Leaf(100, "Sumit", "BACKEND");
@@ -318,7 +325,7 @@ public class TestComposite {
 		ceoDirectory.addEmployee(cfoDirectory);
 	
 		ceoDirectory.showEmployeeDetails();
-		//ctoDirectory.showEmployeeDetails();
+		ctoDirectory.showEmployeeDetails();
 	}
 }
 ```

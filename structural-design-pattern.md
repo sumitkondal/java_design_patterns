@@ -209,3 +209,116 @@ public class BridgePattern1 {
 	}
 }
 ```
+
+### Composite Design Pattern
+Composite design pattern compose objects into tree structures to represent whole-part hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly. 
+It treats each node in two ways:
+1) Composite – Composite means it can have other objects below it.
+2) Leaf – leaf means it has no objects below it.
+
+<img width="132" alt="image" src="https://github.com/user-attachments/assets/099a3261-0fc4-478c-b7a0-185f2a0fa00b">
+```java
+interface Employee{
+	public void showEmployeeDetails();
+}
+
+class Employee_Leaf implements Employee{
+	private int dev_id;
+	private String dev_name;
+	private String team_name;
+	public Employee_Leaf(int dev_id, String dev_name, String team_name) {
+		this.dev_id = dev_id;
+		this.dev_name = dev_name;
+		this.team_name = team_name;
+	}
+	public String getTeam_name() {
+		return team_name;
+	}
+	public void setTeam_name(String team_name) {
+		this.team_name = team_name;
+	}
+	@Override
+	public void showEmployeeDetails() {
+		System.out.println("Dev |"+dev_id+" | "+dev_name+" | "+team_name);
+	}
+	public int getDev_id() {
+		return dev_id;
+	}
+	public void setDev_id(int dev_id) {
+		this.dev_id = dev_id;
+	}
+	public String getDev_name() {
+		return dev_name;
+	}
+	public void setDev_name(String dev_name) {
+		this.dev_name = dev_name;
+	}
+}
+class CompanyDirectory implements Employee{
+	private String deptName;
+	public CompanyDirectory(String deptName) {
+		this.deptName = deptName;
+	}
+	private List<Employee> employees=new ArrayList<Employee>();
+	@Override
+	public void showEmployeeDetails() {
+		System.out.println(deptName);
+		for (Employee e:employees) {
+			e.showEmployeeDetails();
+		}
+	}
+	public void addEmployee(Employee e) {
+		employees.add(e);
+	}
+	public void removeEmployee(Employee e) {
+		employees.remove(e);
+	}
+}
+public class TestComposite {
+	public static void main(String[] args) {
+		Employee dev1 = new Employee_Leaf(100, "Sumit", "BACKEND");
+		Employee dev2 = new Employee_Leaf(101, "Neeraj", "BACKEND");
+		
+		Employee dev3 = new Employee_Leaf(103, "Ashish", "FRONTEND");
+		Employee dev4 = new Employee_Leaf(104, "Ravi", "FRONTEND");
+		
+		Employee dev5 = new Employee_Leaf(105, "Mahesh","HR");
+		Employee dev6 = new Employee_Leaf(106, "Ankit","HR");
+		
+		Employee dev7 = new Employee_Leaf(107, "Mohit","SALES");
+		Employee dev8 = new Employee_Leaf(108, "Ankur","SALES");
+		
+		CompanyDirectory tbvpDirectory = new CompanyDirectory("BACKEND");
+		CompanyDirectory tfvpDirectory = new CompanyDirectory("FRONTEND");
+		CompanyDirectory hrvpDirectory = new CompanyDirectory("HR");
+		CompanyDirectory svpDirectory = new CompanyDirectory("SALES");
+		CompanyDirectory ctoDirectory = new CompanyDirectory("CTO");
+		CompanyDirectory cfoDirectory = new CompanyDirectory("CFO");
+		CompanyDirectory ceoDirectory = new CompanyDirectory("CEO");
+		
+		tbvpDirectory.addEmployee(dev1);
+		tbvpDirectory.addEmployee(dev2);
+		
+		tfvpDirectory.addEmployee(dev3);
+		tfvpDirectory.addEmployee(dev4);
+		
+		hrvpDirectory.addEmployee(dev5);
+		hrvpDirectory.addEmployee(dev6);
+		
+		svpDirectory.addEmployee(dev7);
+		svpDirectory.addEmployee(dev8);
+		
+		ctoDirectory.addEmployee(tbvpDirectory);
+		ctoDirectory.addEmployee(tfvpDirectory);
+		
+		cfoDirectory.addEmployee(hrvpDirectory);
+		cfoDirectory.addEmployee(svpDirectory);
+		
+		ceoDirectory.addEmployee(ctoDirectory);
+		ceoDirectory.addEmployee(cfoDirectory);
+	
+		ceoDirectory.showEmployeeDetails();
+		//ctoDirectory.showEmployeeDetails();
+	}
+}
+```

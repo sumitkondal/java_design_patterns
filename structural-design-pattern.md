@@ -157,6 +157,8 @@ public class BridgePatternDemo {
 }
 ```
 Example on Pen color
+<img width="287" alt="image" src="https://github.com/user-attachments/assets/6364a9bd-5c5a-47ab-981d-82774a8a91be">
+
 ```java
 interface Color {
 	String fill();

@@ -89,7 +89,73 @@ Without Bridge Pattern:			             With Bridge – between Vehicle and Works
 
 <img width="215" alt="image" src="https://github.com/user-attachments/assets/febfbb9a-5b00-4aac-a435-f87cc789ab85">       <img width="287" alt="image" src="https://github.com/user-attachments/assets/61d33596-8dc0-480b-b54d-18a052d0d753">
 
-                
+Example of Vehicle
+```java
+public interface Workshop {
+    void work();
+}
+public class Produce implements Workshop {
+    @Override
+    public void work() {
+        System.out.println("Producing parts");
+    }
+}
+
+public class Assemble implements Workshop {
+    @Override
+    public void work() {
+        System.out.println("Assembling vehicle");
+    }
+}
+
+public abstract class Vehicle {
+    protected Workshop workshop;
+
+    public Vehicle(Workshop workshop) {
+        this.workshop = workshop;
+    }
+
+    abstract public void manufacture();
+}
+public class Bus extends Vehicle {
+    public Bus(Workshop workshop) {
+        super(workshop);
+    }
+
+    @Override
+    public void manufacture() {
+        System.out.print("Bus ");
+        workshop.work();
+    }
+}
+
+public class Bike extends Vehicle {
+    public Bike(Workshop workshop) {
+        super(workshop);
+    }
+
+    @Override
+    public void manufacture() {
+        System.out.print("Bike ");
+        workshop.work();
+    }
+}
+public class BridgePatternDemo {
+    public static void main(String[] args) {
+        Vehicle vehicle1 = new Bus(new Produce());
+        vehicle1.manufacture();
+
+        Vehicle vehicle2 = new Bus(new Assemble());
+        vehicle2.manufacture();
+
+        Vehicle vehicle3 = new Bike(new Produce());
+        vehicle3.manufacture();
+
+        Vehicle vehicle4 = new Bike(new Assemble());
+        vehicle4.manufacture();
+    }
+}
+```
 Example on Pen color
 ```java
 interface Color {

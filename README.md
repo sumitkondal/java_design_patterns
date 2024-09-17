@@ -12,7 +12,7 @@ Solutions to the common problem in software development a Design patterns
 * [**Bridge**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#bridge-pattern "Bridge")
 : Separates the abstraction from its implementation. Useful when you want to change implementations without affecting clients.
 * [**Composite**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#composite-design-pattern "Composite"): Compose objects into tree structures to represent whole-part hierarchies. - Composite (having children), Leaf (no children)
-* **Decorator**: Dynamically adds new functionality to object. Change object’s functionality during runtime. Extending functionality without subclassing.
+* [**Decorator**](https://github.com/sumitkondal/java_design_patterns/blob/main/structural-design-pattern.md#decorator-pattern "Decorator"): Dynamically adds new functionality to object. Change object’s functionality during runtime. Extending functionality without subclassing.
 * **Facade**: Provides a simplified interface to a complex subsystem.
 * **Flyweight**: Minimizes memory usage by sharing data across multiple objects, when many instances have similar states. It reduces the no. of objects
 * **Proxy**: Used to add an extra security layer around the original object as well. It hides the original object. (Lazy loading, access control, or logging)

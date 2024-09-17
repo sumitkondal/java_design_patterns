@@ -382,3 +382,215 @@ public class TestDecorator {
 }
 ```
 
+### Facade Pattern
+Provide a unified interface to a set of interfaces in a subsystem. Facade Pattern defines a higher-level interface that makes the subsystem easier to use.
+- It shields the clients from the complexities of the sub-system components.
+- It promotes loose coupling between subsystems and its clients.
+e.g.
+```java
+public class MySqlHelper {
+	public static Connection getMySqlDBConnection() {
+		return null;
+	}
+	public void generateMySqlPDFReport(String tableName, Connection con) {
+	}
+	public void generateMySqlCSVReport(String tableName, Connection con) {
+	}
+}
+```
+```java
+class OracleHelper {
+	public static Connection getOracleDBConnection() {
+		return null;
+	}
+	public void generateOraclePDFReport(String tableName, Connection con) {
+	}
+	public void generateOracleCSVReport(String tableName, Connection con) {
+	}
+}
+```
+
+```java
+class HelperFacade {
+	public static void generateReport(String dbType, String reportType, String tableName){
+		Connection con = null;
+		switch (dbType) {
+		case "MYSQL": 
+			con = MySqlHelper.getMySqlDBConnection();
+			MySqlHelper mySqlHelper = new MySqlHelper();
+			switch(reportType){
+			case "CSV":
+				mySqlHelper.generateMySqlCSVReport(tableName, con);
+				break;
+			case "PDF":
+				mySqlHelper.generateMySqlPDFReport(tableName, con);
+				break;
+			}
+			break;
+		case "ORACLE": 
+			con = OracleHelper.getOracleDBConnection();
+			OracleHelper oracleHelper = new OracleHelper();
+			switch(reportType){
+			case "CSV":
+				oracleHelper.generateOracleCSVReport(tableName, con);
+				break;
+			case "PDF":
+				oracleHelper.generateOraclePDFReport(tableName, con);
+				break;
+			}
+			break;
+		}
+	}
+}
+```
+```java
+public class FacadePatternTest {
+	public static void main(String[] args) {
+		String tableName="Employee";
+		
+		//generating MySql HTML report and Oracle PDF report without using Facade
+		Connection con = MySqlHelper.getMySqlDBConnection();
+		MySqlHelper mySqlHelper = new MySqlHelper();
+		mySqlHelper.generateMySqlCSVReport(tableName, con);
+		
+		Connection con1 = OracleHelper.getOracleDBConnection();
+		OracleHelper oracleHelper = new OracleHelper();
+		oracleHelper.generateOraclePDFReport(tableName, con1);
+		
+		//generating MySql HTML report and Oracle PDF report using Facade
+		HelperFacade.generateReport("MYSQL", "CSV", tableName);
+		HelperFacade.generateReport("ORACLE", "PDF", tableName);
+	}
+}
+```
+
+### Flyweight Pattern
+it is used when we need to create a lot of Objects of a class. A flyweight is a shared object that can be used in multiple contexts simultaneously. The flyweight acts as an independent object in each context.
+To reuse already existing similar kind of objects by storing them and create new object when no matching object is found.
+
+A flyweight objects essentially has two kind of attributes – intrinsic and extrinsic.
+An intrinsic state attribute is stored/shared in the flyweight object, and it is independent of flyweight’s context. As the best practice, we should make intrinsic states immutable.
+
+**Advantage**
+- 	It reduces the number of objects.
+- 	It reduces the amount of memory and storage devices required if the objects are persisted.
+
+**Usage**
+- When an application uses number of objects
+- 	When the storage cost is high because of the quantity of objects.
+- 	When the application does not depend on object identity.
+
+
+```java
+interface Pen {
+	public void draw(String content);
+}
+
+class ThickPen implements Pen {
+	private String color = null; // extrinsic state - supplied by client
+
+	public ThickPen(String color) {
+		this.color = color;
+	}
+	@Override
+	public void draw(String content) {
+		System.out.println(content + "Drawing THICK content in color : " + color);
+	}
+}
+
+class ThinPen implements Pen {
+	private String color = null;
+
+	public ThinPen(String color) {
+		this.color = color;
+	}
+	@Override
+	public void draw(String content) {
+		System.out.println("Drawing THIN content in color : " + color);
+	}
+}
+```
+
+```java
+class PenFactory {
+	private static final Map<String, Pen> pensMap = new HashMap<>();
+
+	public static Pen getThickPen(String color) {
+		String key = color + "-THICK";
+		Pen pen = pensMap.get(key);
+		if (pen != null) {
+			return pen;
+		} else {
+			pen = new ThickPen(color);
+			pensMap.put(key, pen);
+		}
+		return pen;
+	}
+	public static Pen getThinPen(String color) {
+		String key = color + "-THIN";
+		Pen pen = pensMap.get(key);
+		if (pen != null) {
+			return pen;
+		} else {
+			pen = new ThinPen(color);
+			pensMap.put(key, pen);
+		}
+
+		return pen;
+	}
+}
+```
+```java
+public class FlyWeightEx {
+	public static void main(String[] args) {
+		Pen yellowThinPen1 = PenFactory.getThickPen("YELLOW"); // created new pen
+		yellowThinPen1.draw("Hello World !!");
+
+		Pen yellowThinPen2 = PenFactory.getThickPen("YELLOW"); // pen is shared
+		yellowThinPen2.draw("Hello World !!");
+
+		Pen blueThinPen = PenFactory.getThickPen("BLUE"); // created new pen
+		blueThinPen.draw("Hello World !!");
+
+		System.out.println(yellowThinPen1.hashCode()); //output : 366712642
+		System.out.println(yellowThinPen2.hashCode()); //366712642
+
+		System.out.println(blueThinPen.hashCode()); //1829164700
+	}
+}
+
+```
+
+### Proxy Pattern
+A proxy object hides the original object and control access to it. We can use proxy when we may want to use a class that can perform as an interface to something else.
+Proxy is heavily used to implement lazy loading related usecases where we do not want to create full object until it is actually needed.
+A proxy can be used to add an additional security layer around the original object as well.
+
+In Real World use in: Hibernate JPA, Spring AOP.
+
+```java
+interface RealObject {
+	public void doSomething();
+}
+class RealObjectImpl implements RealObject {
+	@Override
+	public void doSomething() {
+		System.out.println("Performing work in real object");
+	}
+}
+class RealObjectProxy extends RealObjectImpl {
+	@Override
+	public void doSomething() {
+		// Perform additional logic and security
+		// Even we can block the operation execution
+		System.out.println("Delegating work on real object");
+		super.doSomething();
+	}
+}
+public class Client {
+	public static void main(String[] args) {
+		RealObject proxy = new RealObjectProxy();
+		proxy.doSomething();
+	}
+}
+```
